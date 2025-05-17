@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "openpyxl",    # For reading/writing Excel files
-    "pytest",      # For running tests
+    "openpyxl", # For reading/writing Excel files
+    "pandas>=2.2.3",
+    "pytest", # For running tests
 ]
