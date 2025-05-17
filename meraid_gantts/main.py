@@ -5,6 +5,7 @@ from pathlib import Path
 from tkinter import filedialog
 
 from excel_utils import load_data
+from export_to_msproject import export_gantt_to_msproject_excel
 from markdown_utils import update_markdown
 
 
@@ -29,7 +30,8 @@ def main():
     print("Options:")
     print("1. Create a new markdown Gantt chart from Excel")
     print("2. Update an existing markdown Gantt chart from Excel")
-    option = input("Please enter 1 to create or 2 to update: ").strip()
+    print("3. Export an existing markdown Gantt chart to Excel for Microsoft Project import")
+    option = input("Please enter 1 to create, 2 to update, or 3 to export: ").strip()
 
     if option == '1':
         input_excel_file = select_file_dialog(
@@ -63,8 +65,23 @@ def main():
         data = load_data(str(input_excel_file))
         update_markdown(str(markdown_file), data, create_new=False)
         print("Processing complete. Gantt chart has been updated.")
+    elif option == '3':
+        markdown_file = select_file_dialog(
+            "Please select the markdown file containing the Gantt chart:", [("Markdown files", "*.md")]
+        )
+        if not markdown_file:
+            print("No markdown file selected. Exiting.")
+            return
+        output_excel_file = select_file_dialog(
+            "Please select the output Excel file (or enter a new filename):", [("Excel files", "*.xlsx")]
+        )
+        if not output_excel_file:
+            print("No Excel file selected. Exiting.")
+            return
+        export_gantt_to_msproject_excel(str(markdown_file), str(output_excel_file))
+        print("Processing complete. Gantt chart exported for Microsoft Project import.")
     else:
-        print("Invalid option. Please run the program again and select 1 or 2.")
+        print("Invalid option. Please run the program again and select 1, 2, or 3.")
 
 if __name__ == "__main__":
     main()
